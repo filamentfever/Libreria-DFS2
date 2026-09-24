@@ -54,6 +54,7 @@ body {
   color: var(--color-text);
   background: var(--color-bg);
   line-height: 1.5;
+  overflow-x: hidden; /* evita que cualquier elemento ancho (tablas, grillas) empuje la página de lado en móvil */
 }
 
 img {
@@ -275,6 +276,13 @@ section {
   background: var(--color-bg);
 }
 
+/* La tarjeta puede envolver un enlace (imagen + info) y, aparte, un botón de carrito */
+.product-card > a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
 .product-card img {
   aspect-ratio: 1 / 1;
   object-fit: cover;
@@ -335,6 +343,7 @@ section {
 
 .qty-form {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.75rem;
   align-items: center;
   margin-bottom: 1.5rem;
@@ -345,6 +354,68 @@ section {
   padding: 0.55rem;
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
+}
+
+/* ---------- Reseñas y valoraciones ---------- */
+
+.rating-summary {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.rating-average {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.rating-stars,
+.review-stars {
+  color: var(--mustard);
+  letter-spacing: 0.1em;
+}
+
+.rating-summary p {
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.review-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.review-card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.25rem;
+  background: var(--color-bg);
+}
+
+.review-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+
+.review-author {
+  font-weight: 600;
+}
+
+.review-date {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  margin-left: auto;
+}
+
+.review-text {
+  margin: 0;
+  color: var(--color-text);
 }
 
 /* ---------- Formularios ---------- */
@@ -475,6 +546,248 @@ table.data-table th {
   color: var(--color-text-muted);
   font-size: 0.85rem;
   text-transform: none;
+}
+
+/* ---------- Perfil de usuario (cliente) ---------- */
+
+.profile-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+/* Evita que el contenido ancho (p.ej. una tabla) fuerce el ítem del grid
+   más allá del ancho disponible y desborde la página en móvil */
+.profile-sidebar,
+.profile-main {
+  min-width: 0;
+}
+
+.profile-sidebar {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.25rem 1rem;
+  position: sticky;
+  top: 1.5rem;
+}
+
+.profile-sidebar nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.profile-sidebar a {
+  display: block;
+  padding: 0.55rem 0.75rem;
+  border-radius: var(--radius);
+  text-decoration: none;
+  color: var(--color-text);
+}
+
+.profile-sidebar a:hover {
+  background: var(--color-accent-light);
+  color: var(--color-accent-dark);
+}
+
+.profile-main section {
+  padding-top: 0;
+  padding-bottom: 2.5rem;
+  scroll-margin-top: 1.5rem;
+}
+
+.profile-main section:first-child {
+  padding-top: 0;
+}
+
+.address-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.address-card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.25rem;
+  background: var(--color-bg);
+  position: relative;
+}
+
+.address-card h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+}
+
+.address-card p {
+  margin: 0 0 0.25rem;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.address-card .address-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.9rem;
+}
+
+.address-card .address-actions a {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.badge-default {
+  display: inline-block;
+  background: var(--color-accent-light);
+  color: var(--color-accent-dark);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  margin-bottom: 0.5rem;
+}
+
+@media (max-width: 720px) {
+  .profile-layout {
+    grid-template-columns: 1fr;
+  }
+  .profile-sidebar {
+    position: static;
+  }
+}
+
+/* ---------- Panel admin: extras (inventario y pedidos) ---------- */
+
+.admin-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.admin-toolbar .filters {
+  margin-bottom: 0;
+  flex: 1;
+}
+
+.admin-toolbar .filters .form-field,
+.admin-toolbar .filters > div {
+  margin-bottom: 0;
+}
+
+.admin-card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-bg);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.admin-card h2 {
+  font-size: 1.2rem;
+  margin: 0 0 1rem;
+}
+
+.table-responsive-x {
+  overflow-x: auto;
+}
+
+.stat-card.alert .value {
+  color: var(--coral-dark);
+}
+
+tr.fila-stock-bajo td {
+  background: #fdf1e7;
+}
+
+tr.fila-sin-stock td {
+  opacity: 0.6;
+}
+
+.badge-estado {
+  display: inline-block;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.badge-estado.st-nuevo { background: #e6f1ec; color: var(--pine-dark); }
+.badge-estado.st-pendiente { background: #fdf3d9; color: #9a7607; }
+.badge-estado.st-armando-caja { background: #eaf0fb; color: #2c4f9e; }
+.badge-estado.st-listo-para-retiro { background: #eae6fb; color: #5b3fa0; }
+.badge-estado.st-enviado { background: #e6f1ec; color: var(--pine-dark); }
+.badge-estado.st-entregado { background: #dff5e6; color: #1e7a3c; }
+.badge-estado.st-cancelado { background: #fbe6e5; color: var(--coral-dark); }
+
+.badge-stock {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: var(--color-accent-light);
+  color: var(--color-accent-dark);
+}
+
+.badge-stock.bajo { background: #fdf3d9; color: #9a7607; }
+.badge-stock.sin-stock { background: #fbe6e5; color: var(--coral-dark); }
+
+.input-stock {
+  width: 70px;
+  padding: 0.4rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+
+.btn-sm {
+  padding: 0.35rem 0.8rem;
+  font-size: 0.85rem;
+}
+
+.btn-danger-outline {
+  background: transparent;
+  border-color: var(--coral-dark);
+  color: var(--coral-dark);
+}
+
+.btn-danger-outline:hover {
+  background: #fbe6e5;
+}
+
+.acciones-cell {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.import-box {
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius);
+  padding: 1rem;
+  background: var(--color-surface);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.select-estado {
+  padding: 0.4rem 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: 0.85rem;
 }
 
 /* ---------- Footer ---------- */
