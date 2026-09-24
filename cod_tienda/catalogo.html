@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="overflow-y-scroll">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,26 +9,27 @@
 </head>
 <body>
 
+  <!-- Header unificado y bien organizado -->
   <header class="site-header">
     <nav class="navbar navbar-expand-lg">
       <div class="container">
-        <a href="index.html" class="navbar-brand logo">Librería Juanin<span style="color:var(--color-accent)">.</span></a>
+        <a href="index.html" class="navbar-brand logo">Librería Juanin</a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav" aria-controls="main-nav" aria-expanded="false" aria-label="Abrir menú de navegación">
           <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="main-nav">
-          <ul class="navbar-nav main-nav ms-auto mb-3 mb-lg-0">
+          <ul class="navbar-nav ms-auto align-items-center mb-3 mb-lg-0 gap-4">
             <li class="nav-item"><a href="index.html" class="nav-link">Inicio</a></li>
-            <li class="nav-item"><a href="catalogo.html" class="nav-link" aria-current="page">Catálogo</a></li>
-            <li class="nav-item"><a href="contacto.html" class="nav-link">Contacto / Cuenta</a></li>
+            <li class="nav-item"><a href="catalogo.html" class="nav-link active" aria-current="page">Catálogo</a></li>
+            
+            <li class="nav-item"><a href="perfil.html" class="nav-link">Mi perfil</a></li>
+            <li class="nav-item"><a href="admin.html" class="nav-link">Panel admin</a></li>
+            <li class="nav-item">
+              <a href="carrito.html" class="nav-link">Carrito (<span data-carrito-contador>0</span>)</a>
+            </li>
           </ul>
-
-          <div class="header-actions">
-            <a href="contacto.html#login" class="icon-link">Ingresar</a>
-            <a href="catalogo.html" class="icon-link">Carrito (0)</a>
-          </div>
         </div>
       </div>
     </nav>
@@ -45,7 +46,7 @@
 
         <h1 class="section-title">Catálogo de productos</h1>
 
-        <!-- Filtros básicos (estructura, sin lógica funcional aún) -->
+        <!-- Filtros básicos -->
         <form class="filters" action="catalogo.html" method="get">
           <div>
             <label for="categoria">Categoría</label>
@@ -73,53 +74,101 @@
         <!-- Grilla del catálogo -->
         <div class="product-grid">
 
-          <a href="producto.html" class="product-card">
-            <img src="Img\cuadernomiku.jpg" alt="Producto 1" />
-            <div class="info">
-              <p class="name">Cuaderno Miku</p>
-              <p class="price">$19.990</p>
+          <div class="product-card">
+            <a href="producto.html?id=miku">
+              <img src="img/cuadernomiku.jpg" alt="Cuaderno Miku" />
+              <div class="info">
+                <p class="name">Cuaderno Miku</p>
+                <p class="price">$19.990</p>
+              </div>
+            </a>
+            <div style="padding:0 0.9rem 0.9rem;">
+              <button type="button" class="btn btn-primary btn-agregar-carrito" style="width:100%;"
+                data-id="p1" data-nombre="Cuaderno Miku" data-precio="19990" data-imagen="img/cuadernomiku.jpg">
+                Agregar al carrito
+              </button>
             </div>
-          </a>
+          </div>
 
-          <a href="producto.html" class="product-card">
-            <img src="Img\lapizmina.jpg" alt="Producto 2" />
-            <div class="info">
-              <p class="name">Lapiz mina</p>
-              <p class="price">$12.500</p>
+          <div class="product-card">
+            <a href="producto.html?id=lapiz">
+              <img src="img/lapizmina.jpg" alt="Lapiz mina" />
+              <div class="info">
+                <p class="name">Lapiz mina</p>
+                <p class="price">$12.500</p>
+              </div>
+            </a>
+            <div style="padding:0 0.9rem 0.9rem;">
+              <button type="button" class="btn btn-primary btn-agregar-carrito" style="width:100%;"
+                data-id="p2" data-nombre="Lapiz mina" data-precio="12500" data-imagen="img/lapizmina.jpg">
+                Agregar al carrito
+              </button>
             </div>
-          </a>
+          </div>
 
-          <a href="producto.html" class="product-card">
-            <img src="Img\hojascarta.jpg" alt="Producto 3" />
-            <div class="info">
-              <p class="name">Resma de hojas</p>
-              <p class="price">$8.990</p>
+          <div class="product-card">
+            <a href="producto.html?id=resma">
+              <img src="img/hojascarta.jpg" alt="Resma de hojas" />
+              <div class="info">
+                <p class="name">Resma de hojas</p>
+                <p class="price">$8.990</p>
+              </div>
+            </a>
+            <div style="padding:0 0.9rem 0.9rem;">
+              <button type="button" class="btn btn-primary btn-agregar-carrito" style="width:100%;"
+                data-id="p3" data-nombre="Resma de hojas" data-precio="8990" data-imagen="img/hojascarta.jpg">
+                Agregar al carrito
+              </button>
             </div>
-          </a>
+          </div>
 
-          <a href="producto.html" class="product-card">
-            <img src="Img/libroaura.jpg" alt="Producto 4" />
-            <div class="info">
-              <p class="name">Libro</p>
-              <p class="price">$24.000</p>
+          <div class="product-card">
+            <a href="producto.html?id=libro">
+              <img src="img/libroaura.jpg" alt="Libro" />
+              <div class="info">
+                <p class="name">Libro</p>
+                <p class="price">$24.000</p>
+              </div>
+            </a>
+            <div style="padding:0 0.9rem 0.9rem;">
+              <button type="button" class="btn btn-primary btn-agregar-carrito" style="width:100%;"
+                data-id="p4" data-nombre="Libro" data-precio="24000" data-imagen="img/libroaura.jpg">
+                Agregar al carrito
+              </button>
             </div>
-          </a>
+          </div>
 
-          <a href="producto.html" class="product-card">
-            <img src="Img\estuche.jpg" alt="Producto 5" />
-            <div class="info">
-              <p class="name">Estuche</p>
-              <p class="price">$15.750</p>
+          <div class="product-card">
+            <a href="producto.html?id=estuche">
+              <img src="img/estuche.jpg" alt="Estuche" />
+              <div class="info">
+                <p class="name">Estuche</p>
+                <p class="price">$15.750</p>
+              </div>
+            </a>
+            <div style="padding:0 0.9rem 0.9rem;">
+              <button type="button" class="btn btn-primary btn-agregar-carrito" style="width:100%;"
+                data-id="p5" data-nombre="Estuche" data-precio="15750" data-imagen="img/estuche.jpg">
+                Agregar al carrito
+              </button>
             </div>
-          </a>
+          </div>
 
-          <a href="producto.html" class="product-card">
-            <img src="Img/gomadeborrar.jpg" alt="Producto 6" />
-            <div class="info">
-              <p class="name">Goma de borrar</p>
-              <p class="price">$32.200</p>
+          <div class="product-card">
+            <a href="producto.html?id=goma">
+              <img src="img/gomadeborrar.jpg" alt="Goma de borrar" />
+              <div class="info">
+                <p class="name">Goma de borrar</p>
+                <p class="price">$32.200</p>
+              </div>
+            </a>
+            <div style="padding:0 0.9rem 0.9rem;">
+              <button type="button" class="btn btn-primary btn-agregar-carrito" style="width:100%;"
+                data-id="p6" data-nombre="Goma de borrar" data-precio="32200" data-imagen="img/gomadeborrar.jpg">
+                Agregar al carrito
+              </button>
             </div>
-          </a>
+          </div>
 
         </div>
 
@@ -140,7 +189,7 @@
       <div class="footer-grid">
         <div>
           <h2>Librería Juanin</h2>
-          <p>hola escribir un texto bacán aquí hola</p>
+          <p>Todo lo que necesitas, en un solo lugar</p>
         </div>
         <div>
           <h3>Navegación</h3>
@@ -153,9 +202,8 @@
         <div>
           <h3>Cuenta</h3>
           <ul>
-            <li><a href="contacto.html">Ingresar</a></li>
             <li><a href="contacto.html">Registrarse</a></li>
-            <li><a href="admin/index.html">Panel admin</a></li>
+            <li><a href="perfil.html">Mi perfil</a></li>
           </ul>
         </div>
         <div>
@@ -168,11 +216,11 @@
       </div>
       <div class="footer-bottom">
         <p>&copy; 2026 Tienda Online. Todos los derechos reservados.</p>
-        <p>Grupo 4  — Estructura navegable</p>
       </div>
     </div>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/cart.js"></script>
 </body>
 </html>

@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="es" class="overflow-y-scroll">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Librería Juanin — Carrito</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <nav class="navbar navbar-expand-lg">
+      <div class="container">
+        <a href="index.html" class="navbar-brand logo">Librería Juanin</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav" aria-controls="main-nav" aria-expanded="false" aria-label="Abrir menú de navegación">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="main-nav">
+          <ul class="navbar-nav ms-auto align-items-center mb-3 mb-lg-0 gap-4">
+            <li class="nav-item"><a href="index.html" class="nav-link">Inicio</a></li>
+            <li class="nav-item"><a href="catalogo.html" class="nav-link active" aria-current="page">Catálogo</a></li>
+            
+            <li class="nav-item"><a href="perfil.html" class="nav-link">Mi perfil</a></li>
+            <li class="nav-item"><a href="admin.html" class="nav-link">Panel admin</a></li>
+            <li class="nav-item">
+              <a href="carrito.html" class="nav-link">Carrito (<span data-carrito-contador>0</span>)</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section>
+      <div class="container">
+
+        <!-- Ruta de navegación -->
+        <nav aria-label="Ruta de navegación" style="margin-bottom:1rem; font-size:0.9rem; color:var(--color-text-muted);">
+          <a href="index.html">Inicio</a> / <span>Carrito</span>
+        </nav>
+
+        <h1 class="section-title">Tu carrito de compras</h1>
+
+        <!-- Carrito vacío -->
+        <div id="carrito-vacio" style="display:none; text-align:center; padding:3rem 0;">
+          <p style="font-size:1.1rem; color:var(--color-text-muted); margin-bottom:1.5rem;">Tu carrito está vacío por ahora.</p>
+          <a href="catalogo.html" class="btn btn-primary">Ir al catálogo</a>
+        </div>
+
+        <!-- Contenido del carrito -->
+        <div id="carrito-contenido">
+          <div style="overflow-x:auto;">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Producto</th>
+                  <th>Cantidad</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="carrito-items">
+                <!-- Filas generadas por JS -->
+              </tbody>
+            </table>
+          </div>
+          
+
+          <div style="display:flex; justify-content:flex-end; margin-top:1.5rem;">
+            <div style="min-width:280px; border:1px solid var(--color-border); border-radius:var(--radius); padding:1.25rem 1.5rem; background:var(--color-surface);">
+              <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem;">
+                <span>Artículos</span>
+                <span id="resumen-cantidad">0</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; font-size:1.25rem; font-weight:700; border-top:1px solid var(--color-border); padding-top:0.75rem; margin-top:0.5rem;">
+                <span>Total</span>
+                <span id="resumen-total" style="color:var(--coral-dark);">$0</span>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:0.6rem; margin-top:1.25rem;">
+                <button type="button" class="btn btn-primary" id="btn-pagar" data-bs-toggle="modal" data-bs-target="#modal-pago">Proceder al pago</button>
+                <button type="button" class="btn btn-secondary" id="btn-vaciar">Vaciar carrito</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+
+        <!-- Seguir comprando: productos del catálogo -->
+        <section id="seguir-comprando">
+          <h2 class="section-title">Seguir comprando</h2>
+          <div class="product-grid" id="seguir-comprando-grid">
+            <!-- Tarjetas generadas por JS a partir de PRODUCTOS_RELACIONADOS -->
+          </div>
+        </section>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <h2>Librería Juanin</h2>
+          <p>hola escribir un texto bacán aquí hola</p>
+        </div>
+        <div>
+          <h3>Navegación</h3>
+          <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="catalogo.html">Catálogo</a></li>
+            <li><a href="producto.html">Detalle de producto</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Cuenta</h3>
+          <ul>
+            <li><a href="contacto.html">Ingresar</a></li>
+            <li><a href="contacto.html">Registrarse</a></li>
+            <li><a href="perfil.html">Mi perfil</a></li>
+            <li><a href="admin/index.html">Panel admin</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Contacto</h3>
+          <ul>
+            <li><a href="mailto:contacto@tienda.cl">librería_juanin@gmail.cl</a></li>
+            <li><a href="contacto.html">Formulario de contacto</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Tienda Online. Todos los derechos reservados.</p>
+        <p>Grupo 4  — Estructura navegable</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       Pasarela de pago FICTICIA — solo para fines de demostración.
+       No procesa pagos reales ni se conecta con ningún banco.
+       ============================================================ -->
+  <div class="modal fade" id="modal-pago" tabindex="-1" aria-labelledby="modal-pago-titulo" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        
+        
+        <!-- Paso 1: formulario de pago -->
+        <div id="pago-paso-formulario">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modal-pago-titulo">Pago</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <form id="form-pago" novalidate>
+            <div class="modal-body">
+              <!-- Opciones de Entrega -->
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Opciones de entrega</h5>
+        
+        <div class="form-check mb-2">
+            <input class="form-check-input" type="radio" name="tipoEntrega" id="retiroTienda" value="tienda" checked>
+            <label class="form-check-label" for="retiroTienda">
+                Retiro en tienda
+            </label>
+        </div>
+        
+        <div class="form-check mb-3">
+            <input class="form-check-input" type="radio" name="tipoEntrega" id="envioDomicilio" value="domicilio">
+            <label class="form-check-label" for="envioDomicilio">
+                Envío a domicilio
+            </label>
+        </div>
+
+        <!-- Sección de Dirección (Oculta por defecto) -->
+        <div id="seccionDireccion" class="p-3 border rounded bg-light" style="display: none;">
+            <h6 class="mb-3">Dirección de envío</h6>
+            
+            <div id="direccionPerfilBox" class="mb-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="opcionDireccion" id="usarDirPerfil" value="perfil" checked>
+                    <label class="form-check-label" for="usarDirPerfil">
+                        Usar mi dirección guardada: <br>
+                        <strong id="direccionGuardadaTexto">Cargando dirección...</strong>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-check mb-2">
+                <input class="form-check-input" type="radio" name="opcionDireccion" id="usarNuevaDir" value="nueva">
+                <label class="form-check-label" for="usarNuevaDir">
+                    Agregar una nueva dirección
+                </label>
+            </div>
+            
+            <div id="inputNuevaDireccion" style="display: none;">
+                <input type="text" class="form-control mt-2" id="nuevaDireccionText" placeholder="Ej: Av. Los Leones 123, Providencia">
+            </div>
+        </div>
+    </div>
+</div>
+              <div style="display:flex; justify-content:space-between; font-weight:700; margin-bottom:1rem;">
+                <span>Total a pagar</span>
+                <span id="pago-total" style="color:var(--coral-dark);">$0</span>
+              </div>
+
+              <div class="form-field">
+                <label for="pago-nombre">Nombre del titular</label>
+                <input type="text" id="pago-nombre" name="titular" placeholder="Como aparece en la tarjeta" required />
+              </div>
+
+              <div class="form-field">
+                <label for="pago-numero">Número de tarjeta</label>
+                <input type="text" id="pago-numero" name="numero" placeholder="4111 1111 1111 1111" inputmode="numeric" maxlength="19" pattern="^[\d ]{13,19}$" title="Ingresa entre 13 y 16 dígitos" required />
+              </div>
+
+              <div style="display:flex; gap:1rem;">
+                <div class="form-field" style="flex:1;">
+                  <label for="pago-vencimiento">Vencimiento</label>
+                  <input type="text" id="pago-vencimiento" name="vencimiento" placeholder="MM/AA" maxlength="5" pattern="^(0[1-9]|1[0-2])\/\d{2}$" title="Formato MM/AA" required />
+                </div>
+                <div class="form-field" style="flex:1;">
+                  <label for="pago-cvv">CVV</label>
+                  <input type="text" id="pago-cvv" name="cvv" placeholder="123" inputmode="numeric" maxlength="4" pattern="^\d{3,4}$" required />
+                </div>
+              </div>
+
+              <p id="pago-error" style="display:none; color:var(--coral-dark); font-size:0.9rem; margin-top:0.5rem;">Revisa los datos ingresados: hay campos incompletos o con formato inválido.</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-primary" id="btn-confirmar-pago">Pagar ahora</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Paso 2: procesando -->
+        <div id="pago-paso-procesando" style="display:none; padding:3rem 1.5rem; text-align:center;">
+          <div class="spinner-border" role="status" style="width:3rem; height:3rem; color:var(--coral-dark);">
+            <span class="visually-hidden">Procesando...</span>
+          </div>
+          <p style="margin-top:1.25rem; font-weight:600;">Procesando tu pago simulado...</p>
+        </div>
+
+        <!-- Paso 3: resultado -->
+        <div id="pago-paso-resultado" style="display:none; padding:2.5rem 1.5rem; text-align:center;">
+          <div style="font-size:2.5rem;">✅</div>
+          <h5 style="margin-top:0.75rem;">¡Pago simulado exitoso!</h5>
+          <p style="color:var(--color-text-muted);">N.º de operación (<strong id="pago-numero-operacion">—</strong>): </p>
+          <p style="color:var(--color-text-muted); font-size:0.9rem;">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" style="margin-top:0.75rem;">Cerrar</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/cart.js"></script>
+
+  <!-- Renderizado específico de la página del carrito -->
+  <script>
+    (function () {
+      // Catálogo de productos sugeridos en "Seguir comprando"
+      // (misma información que antes, ahora centralizada en un solo lugar)
+      const PRODUCTOS_RELACIONADOS = [
+        { id: "p1", slug: "miku",   nombre: "Cuaderno Miku",   precio: 19990, imagen: "img/cuadernomiku.jpg" },
+        { id: "p2", slug: "lapiz",  nombre: "Lapiz mina",      precio: 12500, imagen: "img/lapizmina.jpg" },
+        { id: "p3", slug: "resma",  nombre: "Resma de hojas",  precio: 8990,  imagen: "img/hojascarta.jpg" },
+        { id: "p4", slug: "libro",  nombre: "Libro",           precio: 24000, imagen: "img/libroaura.jpg" },
+        { id: "p5", slug: "estuche",nombre: "Estuche",         precio: 15750, imagen: "img/estuche.jpg" },
+        { id: "p6", slug: "goma",  nombre: "Goma de borrar",  precio: 32200, imagen: "img/gomadeborrar.jpg" }
+      ];
+
+      // Elementos que no cambian entre renders: se buscan una sola vez
+      const cuerpoTabla = document.getElementById("carrito-items");
+      const bloqueVacio = document.getElementById("carrito-vacio");
+      const bloqueContenido = document.getElementById("carrito-contenido");
+      const resumenCantidad = document.getElementById("resumen-cantidad");
+      const resumenTotal = document.getElementById("resumen-total");
+      const btnPagar = document.getElementById("btn-pagar");
+
+      function renderizarSeguirComprando() {
+        const grid = document.getElementById("seguir-comprando-grid");
+        grid.innerHTML = PRODUCTOS_RELACIONADOS.map(function (p) {
+          return (
+            '<div class="product-card">' +
+              '<a href="producto.html?id=' + p.slug + '">' +
+                '<img src="' + p.imagen + '" alt="' + p.nombre + '" />' +
+                '<div class="info">' +
+                  '<p class="name">' + p.nombre + '</p>' +
+                  '<p class="price">' + window.CarritoJuanin.formatoPrecio(p.precio) + '</p>' +
+                '</div>' +
+              '</a>' +
+              '<div style="padding:0 0.9rem 0.9rem;">' +
+                '<button type="button" class="btn btn-primary btn-agregar-carrito" style="width:100%;" ' +
+                  'data-id="' + p.id + '" data-nombre="' + p.nombre + '" data-precio="' + p.precio + '" data-imagen="' + p.imagen + '">' +
+                  'Agregar al carrito' +
+                '</button>' +
+              '</div>' +
+            '</div>'
+          );
+        }).join("");
+
+        // Los botones recién creados aún no tienen el listener del carrito
+        window.CarritoJuanin.conectarBotones(grid);
+      }
+
+      function filaCarrito(item) {
+        return (
+          '<td>' +
+            '<div style="display:flex; align-items:center; gap:0.75rem;">' +
+              '<img src="' + item.imagen + '" alt="' + item.nombre + '" style="width:56px; height:56px; object-fit:cover; border-radius:var(--radius); border:1px solid var(--color-border);" />' +
+              '<span style="font-weight:600;">' + item.nombre + '</span>' +
+            '</div>' +
+          '</td>' +
+          '<td>' + item.cantidad + '</td>' +
+          '<td>' +
+            '<button type="button" class="btn-quitar" data-id="' + item.id + '" style="background:none; border:none; color:var(--coral-dark); font-weight:600; cursor:pointer; text-decoration:underline;">Quitar</button>' +
+          '</td>'
+        );
+      }
+
+      function renderizarCarrito() {
+        const carrito = window.CarritoJuanin.obtener();
+
+        const totales = window.CarritoJuanin.totales(carrito);
+        resumenCantidad.textContent = totales.cantidadTotal;
+        resumenTotal.textContent = window.CarritoJuanin.formatoPrecio(totales.totalPagar);
+        if (btnPagar) btnPagar.disabled = carrito.length === 0;
+
+        if (carrito.length === 0) {
+          bloqueVacio.style.display = "block";
+          bloqueContenido.style.display = "none";
+          return;
+        }
+
+        bloqueVacio.style.display = "none";
+        bloqueContenido.style.display = "block";
+
+        cuerpoTabla.innerHTML = carrito.map(function (item) {
+          return "<tr>" + filaCarrito(item) + "</tr>";
+        }).join("");
+        // Nota: los clics de "Quitar" se manejan por delegación de eventos
+        // en el listener del tbody (ver más abajo), así que no hace falta
+        // volver a enlazar un listener por cada fila en cada render.
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        renderizarSeguirComprando();
+        renderizarCarrito();
+
+        // Delegación de eventos: un solo listener para todos los botones "Quitar",
+        // sin importar cuántas veces se vuelva a renderizar la tabla.
+        cuerpoTabla.addEventListener("click", function (evento) {
+          const btn = evento.target.closest(".btn-quitar");
+          if (!btn) return;
+          window.CarritoJuanin.eliminar(btn.getAttribute("data-id"));
+          renderizarCarrito();
+        });
+
+        document.getElementById("btn-vaciar").addEventListener("click", function () {
+          if (confirm("¿Vaciar todos los productos del carrito?")) {
+            window.CarritoJuanin.vaciar();
+            renderizarCarrito();
+          }
+        });
+
+        // Si se agrega un producto desde "Seguir comprando", refresca la tabla al instante
+        document.addEventListener("carrito:actualizado", renderizarCarrito);
+
+        // ------- Pasarela de pago ficticia -------
+        const modalPagoEl = document.getElementById("modal-pago");
+        const modalPago = new bootstrap.Modal(modalPagoEl);
+        const pasoFormulario = document.getElementById("pago-paso-formulario");
+        const pasoProcesando = document.getElementById("pago-paso-procesando");
+        const pasoResultado = document.getElementById("pago-paso-resultado");
+        const formPago = document.getElementById("form-pago");
+        const pagoError = document.getElementById("pago-error");
+        const pagoTotalSpan = document.getElementById("pago-total");
+
+        // Autoformatear el número de tarjeta en grupos de 4
+        document.getElementById("pago-numero").addEventListener("input", function (e) {
+          e.target.value = e.target.value.replace(/\D/g, "").slice(0, 16).replace(/(.{4})/g, "$1 ").trim();
+        });
+
+        // Autoformatear vencimiento MM/AA
+        document.getElementById("pago-vencimiento").addEventListener("input", function (e) {
+          let v = e.target.value.replace(/\D/g, "").slice(0, 4);
+          if (v.length > 2) v = v.slice(0, 2) + "/" + v.slice(2);
+          e.target.value = v;
+        });
+
+        // Al abrir el modal: mostrar el total actual y resetear a paso 1
+        modalPagoEl.addEventListener("show.bs.modal", function () {
+          const totales = window.CarritoJuanin.totales();
+          pagoTotalSpan.textContent = window.CarritoJuanin.formatoPrecio(totales.totalPagar);
+          pasoFormulario.style.display = "block";
+          pasoProcesando.style.display = "none";
+          pasoResultado.style.display = "none";
+          pagoError.style.display = "none";
+          formPago.reset();
+        });
+
+        // Si cierran el modal después de un pago exitoso, refrescar el carrito (quedará vacío)
+        modalPagoEl.addEventListener("hidden.bs.modal", function () {
+          renderizarCarrito();
+        });
+
+        formPago.addEventListener("submit", function (evento) {
+          evento.preventDefault();
+
+          if (!formPago.checkValidity()) {
+            pagoError.style.display = "block";
+            formPago.reportValidity();
+            return;
+          }
+          pagoError.style.display = "none";
+
+          // Paso 2: "procesando"
+          pasoFormulario.style.display = "none";
+          pasoProcesando.style.display = "block";
+
+          setTimeout(function () {
+            // Genera un número de operación ficticio
+            const numeroOperacion = "DEMO-" + Math.floor(100000 + Math.random() * 900000);
+            document.getElementById("pago-numero-operacion").textContent = numeroOperacion;
+
+            // Vacía el carrito (compra simulada completada)
+            window.CarritoJuanin.vaciar();
+
+            // Paso 3: resultado
+            pasoProcesando.style.display = "none";
+            pasoResultado.style.display = "block";
+          }, 1500);
+        });
+      });
+    })();
+  </script>
+
+</body>
+</html>

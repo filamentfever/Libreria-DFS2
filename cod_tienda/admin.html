@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="es" class="overflow-y-scroll">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Librería Juanin — Panel de administración</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- Header unificado -->
+  <header class="site-header">
+    <nav class="navbar navbar-expand-lg">
+      <div class="container">
+        <a href="index.html" class="navbar-brand logo">Librería Juanin</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav" aria-controls="main-nav" aria-expanded="false" aria-label="Abrir menú de navegación">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="main-nav">
+          <ul class="navbar-nav ms-auto align-items-center mb-3 mb-lg-0 gap-4">
+            <li class="nav-item"><a href="index.html" class="nav-link">Inicio</a></li>
+            <li class="nav-item"><a href="catalogo.html" class="nav-link">Catálogo</a></li>
+            
+            <li class="nav-item"><a href="perfil.html" class="nav-link">Mi perfil</a></li>
+            <li class="nav-item"><a href="admin.html" class="nav-link active" aria-current="page">Panel admin</a></li>
+            <li class="nav-item">
+              <a href="carrito.html" class="nav-link">Carrito (<span data-carrito-contador>0</span>)</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section style="padding-top:1.5rem;">
+      <div class="container">
+
+        <nav aria-label="Ruta de navegación" style="margin-bottom:1rem; font-size:0.9rem; color:var(--color-text-muted);">
+          <a href="index.html">Inicio</a> / <span>Panel de administración</span>
+        </nav>
+
+        <h1 class="section-title">Panel de administración</h1>
+
+        <div class="admin-layout" style="min-height:auto;">
+
+          <!-- Menú lateral -->
+          <aside class="admin-sidebar">
+            <nav aria-label="Secciones del panel">
+              <ul>
+                <li><a href="#dashboard" class="nav-seccion active" data-seccion="dashboard">Dashboard</a></li>
+                <li><a href="#inventario" class="nav-seccion" data-seccion="inventario">Inventario</a></li>
+                <li><a href="#pedidos" class="nav-seccion" data-seccion="pedidos">Pedidos</a></li>
+              </ul>
+            </nav>
+          </aside>
+
+          <div class="admin-main">
+
+            <!-- ================= DASHBOARD ================= -->
+            <section id="dashboard" class="seccion-admin">
+              <h2 class="section-title" style="font-size:1.3rem;">Resumen general</h2>
+
+              <div class="stat-cards">
+                <div class="stat-card">
+                  <p class="value" id="stat-total-productos">0</p>
+                  <p class="label">Productos activos</p>
+                </div>
+                <div class="stat-card alert">
+                  <p class="value" id="stat-stock-bajo">0</p>
+                  <p class="label">Artículos con stock crítico (&lt; 5)</p>
+                </div>
+                <div class="stat-card">
+                  <p class="value" id="stat-pedidos-pendientes">0</p>
+                  <p class="label">Pedidos por gestionar</p>
+                </div>
+                <div class="stat-card">
+                  <p class="value" id="stat-ventas-totales">$0</p>
+                  <p class="label">Ventas totales registradas</p>
+                </div>
+              </div>
+
+              <div class="admin-card">
+                <h2>Artículos críticos (stock bajo)</h2>
+                <div class="table-responsive-x">
+                  <table class="data-table">
+                    <thead>
+                      <tr>
+                        <th>SKU</th>
+                        <th>Producto</th>
+                        <th>Categoría</th>
+                        <th>Stock</th>
+                        <th>Estado</th>
+                      </tr>
+                    </thead>
+                    <tbody id="tabla-criticos">
+                    </tbody>
+                  </table>
+                </div>
+                <p class="form-note" id="msg-sin-criticos" style="display:none;">No hay artículos con stock crítico por el momento.</p>
+              </div>
+            </section>
+
+            <!-- ================= INVENTARIO ================= -->
+            <section id="inventario" class="seccion-admin" style="display:none;">
+              <div class="admin-toolbar">
+                <h2 class="section-title" style="font-size:1.3rem; margin:0;">Gestión de inventario</h2>
+                <button type="button" class="btn btn-primary" id="btn-nuevo-producto">+ Nuevo producto</button>
+              </div>
+
+              <form class="filters" id="form-buscar-productos" onsubmit="return false;">
+                <div style="flex:1; min-width:220px;">
+                  <label for="buscar-producto">Buscar por nombre o SKU</label>
+                  <input type="search" id="buscar-producto" placeholder="Ej: Cuaderno Miku o SKU-P1" />
+                </div>
+              </form>
+
+              <div class="import-box">
+                <div>
+                  <label for="input-csv" style="font-weight:600; display:block; margin-bottom:0.25rem;">Carga masiva (CSV)</label>
+                  <span class="form-note" style="margin:0;">Columnas esperadas: SKU, Nombre, Categoría, Precio, Stock</span>
+                </div>
+                <input type="file" id="input-csv" accept=".csv" />
+              </div>
+
+              <div class="admin-card">
+                <div class="table-responsive-x">
+                  <table class="data-table">
+                    <thead>
+                      <tr>
+                        <th>SKU</th>
+                        <th>Producto</th>
+                        <th>Categoría</th>
+                        <th>Precio</th>
+                        <th>Stock</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody id="tabla-inventario">
+                    </tbody>
+                  </table>
+                </div>
+                <p class="form-note" id="msg-sin-productos" style="display:none;">No se encontraron productos con ese criterio de búsqueda.</p>
+              </div>
+            </section>
+
+            <!-- ================= PEDIDOS ================= -->
+            <section id="pedidos" class="seccion-admin" style="display:none;">
+              <h2 class="section-title" style="font-size:1.3rem;">Gestión de pedidos</h2>
+
+              <form class="filters" id="form-filtros-pedidos" onsubmit="return false;">
+                <div>
+                  <label for="filtro-estado">Estado</label>
+                  <select id="filtro-estado">
+                    <option value="">Todos</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="filtro-desde">Desde</label>
+                  <input type="date" id="filtro-desde" />
+                </div>
+                <div>
+                  <label for="filtro-hasta">Hasta</label>
+                  <input type="date" id="filtro-hasta" />
+                </div>
+                <div style="align-self:flex-end;">
+                  <button type="button" class="btn btn-secondary" id="btn-limpiar-filtros">Limpiar filtros</button>
+                </div>
+              </form>
+
+              <div class="admin-card">
+                <div class="table-responsive-x">
+                  <table class="data-table">
+                    <thead>
+                      <tr>
+                        <th>Pedido</th>
+                        <th>Cliente</th>
+                        <th>Fecha</th>
+                        <th>Entrega</th>
+                        <th>Total</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody id="tabla-pedidos">
+                    </tbody>
+                  </table>
+                </div>
+                <p class="form-note" id="msg-sin-pedidos" style="display:none;">No hay pedidos que coincidan con los filtros seleccionados.</p>
+              </div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Modal: crear / editar producto ===== -->
+  <div class="modal fade" id="modal-producto" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form id="form-producto">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modal-producto-titulo">Nuevo producto</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body">
+            <input type="hidden" id="producto-id" />
+            <div class="form-field">
+              <label for="producto-nombre">Nombre</label>
+              <input type="text" id="producto-nombre" required />
+            </div>
+            <div class="form-field">
+              <label for="producto-sku">SKU</label>
+              <input type="text" id="producto-sku" required />
+            </div>
+            <div class="form-field">
+              <label for="producto-categoria">Categoría</label>
+              <select id="producto-categoria" required></select>
+            </div>
+            <div class="form-field">
+              <label for="producto-precio">Precio (CLP)</label>
+              <input type="number" id="producto-precio" min="0" required />
+            </div>
+            <div class="form-field">
+              <label for="producto-stock">Stock</label>
+              <input type="number" id="producto-stock" min="0" required />
+            </div>
+            <div class="form-field">
+              <label for="producto-imagen">Imagen (ruta o URL, opcional)</label>
+              <input type="text" id="producto-imagen" placeholder="img/producto.jpg" />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Guardar producto</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Modal: detalle de pedido ===== -->
+  <div class="modal fade" id="modal-pedido" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Detalle del pedido <span id="detalle-pedido-id"></span></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <p><strong>Cliente:</strong> <span id="detalle-cliente"></span></p>
+          <p><strong>Fecha:</strong> <span id="detalle-fecha"></span></p>
+          <p><strong>Entrega:</strong> <span id="detalle-entrega"></span></p>
+          <table class="data-table">
+            <thead>
+              <tr><th>Producto</th><th>Cantidad</th><th>Precio</th><th>Subtotal</th></tr>
+            </thead>
+            <tbody id="detalle-items"></tbody>
+          </table>
+          <p style="text-align:right; font-weight:700; margin-top:0.75rem;">Total: <span id="detalle-total"></span></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <h2>Librería Juanin</h2>
+          <p>Todo lo que necesitas, en un solo lugar</p>
+        </div>
+        <div>
+          <h3>Navegación</h3>
+          <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="catalogo.html">Catálogo</a></li>
+            <li><a href="admin.html">Panel admin</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Cuenta</h3>
+          <ul>
+            <li><a href="contacto.html">Registrarse</a></li>
+            <li><a href="perfil.html">Mi perfil</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Contacto</h3>
+          <ul>
+            <li><a href="mailto:contacto@tienda.cl">librería_juanin@gmail.cl</a></li>
+            <li><a href="contacto.html">Formulario de contacto</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Tienda Online. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/admin.js"></script>
+  <script>
+    (function () {
+      "use strict";
+
+      const A = window.AdminJuanin;
+      let productos = A.obtenerProductos();
+      let pedidos = A.obtenerPedidos();
+
+      /* ---------- Navegación entre secciones (sidebar) ---------- */
+
+      const enlacesSeccion = document.querySelectorAll(".nav-seccion");
+      const secciones = document.querySelectorAll(".seccion-admin");
+
+      function irASeccion(nombre) {
+        secciones.forEach(function (s) { s.style.display = s.id === nombre ? "" : "none"; });
+        enlacesSeccion.forEach(function (a) {
+          a.classList.toggle("active", a.dataset.seccion === nombre);
+          if (a.dataset.seccion === nombre) a.setAttribute("aria-current", "page");
+          else a.removeAttribute("aria-current");
+        });
+      }
+
+      enlacesSeccion.forEach(function (a) {
+        a.addEventListener("click", function (e) {
+          e.preventDefault();
+          irASeccion(a.dataset.seccion);
+        });
+      });
+
+      const seccionInicial = (location.hash || "#dashboard").replace("#", "");
+      irASeccion(["dashboard", "inventario", "pedidos"].includes(seccionInicial) ? seccionInicial : "dashboard");
+
+      /* ---------- Utilidades comunes ---------- */
+
+      function slugEstado(estado) {
+        return "st-" + estado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, "-");
+      }
+
+      /* ================= DASHBOARD ================= */
+
+      function renderDashboard() {
+        const activos = productos.filter(function (p) { return p.stock > 0; });
+        const critico = productos.filter(function (p) { return p.stock > 0 && p.stock < A.UMBRAL_STOCK_BAJO; });
+        const pendientes = pedidos.filter(function (p) { return !["Entregado", "Cancelado"].includes(p.estado); });
+        const ventas = pedidos
+          .filter(function (p) { return p.estado !== "Cancelado"; })
+          .reduce(function (acc, p) { return acc + p.total; }, 0);
+
+        document.getElementById("stat-total-productos").textContent = activos.length;
+        document.getElementById("stat-stock-bajo").textContent = critico.length;
+        document.getElementById("stat-pedidos-pendientes").textContent = pendientes.length;
+        document.getElementById("stat-ventas-totales").textContent = A.formatoPrecio(ventas);
+
+        const tbody = document.getElementById("tabla-criticos");
+        tbody.innerHTML = "";
+        critico.forEach(function (p) {
+          const tr = document.createElement("tr");
+          tr.className = "fila-stock-bajo";
+          tr.innerHTML =
+            "<td>" + p.sku + "</td>" +
+            "<td>" + p.nombre + "</td>" +
+            "<td>" + p.categoria + "</td>" +
+            "<td><span class=\"badge-stock bajo\">" + p.stock + " unid.</span></td>" +
+            "<td>Reponer pronto</td>";
+          tbody.appendChild(tr);
+        });
+        document.getElementById("msg-sin-criticos").style.display = critico.length ? "none" : "";
+      }
+
+      /* ================= INVENTARIO ================= */
+
+      function badgeStock(p) {
+        if (p.stock === 0) return '<span class="badge-stock sin-stock">Sin stock</span>';
+        if (p.stock < A.UMBRAL_STOCK_BAJO) return '<span class="badge-stock bajo">Stock bajo</span>';
+        return '<span class="badge-stock">Disponible</span>';
+      }
+
+      function renderInventario() {
+        const termino = document.getElementById("buscar-producto").value.trim().toLowerCase();
+        const filtrados = productos.filter(function (p) {
+          return !termino || p.nombre.toLowerCase().includes(termino) || p.sku.toLowerCase().includes(termino);
+        });
+
+        const tbody = document.getElementById("tabla-inventario");
+        tbody.innerHTML = "";
+
+        filtrados.forEach(function (p) {
+          const activo = p.stock > 0;
+          const tr = document.createElement("tr");
+          if (!activo) tr.className = "fila-sin-stock";
+          else if (p.stock < A.UMBRAL_STOCK_BAJO) tr.className = "fila-stock-bajo";
+
+          tr.innerHTML =
+            "<td>" + p.sku + "</td>" +
+            "<td>" + p.nombre + "</td>" +
+            "<td>" + p.categoria + "</td>" +
+            "<td>" + A.formatoPrecio(p.precio) + "</td>" +
+            "<td>" +
+              '<input type="number" class="input-stock" min="0" value="' + p.stock + '" data-id="' + p.id + '" />' +
+            "</td>" +
+            "<td>" + badgeStock(p) + (activo ? "" : ' <span class="form-note" style="margin:0;">(oculto en catálogo)</span>') + "</td>" +
+            "<td class=\"acciones-cell\">" +
+              '<button type="button" class="btn btn-secondary btn-sm btn-guardar-stock" data-id="' + p.id + '">Guardar stock</button>' +
+              '<button type="button" class="btn btn-secondary btn-sm btn-editar-producto" data-id="' + p.id + '">Editar</button>' +
+              '<button type="button" class="btn btn-danger-outline btn-sm btn-eliminar-producto" data-id="' + p.id + '">Eliminar</button>' +
+            "</td>";
+          tbody.appendChild(tr);
+        });
+
+        document.getElementById("msg-sin-productos").style.display = filtrados.length ? "none" : "";
+      }
+
+      document.getElementById("buscar-producto").addEventListener("input", renderInventario);
+
+      
+
+      /* ---- Modal producto (crear / editar) ---- */
+
+      const modalProductoEl = document.getElementById("modal-producto");
+      const modalProducto = new bootstrap.Modal(modalProductoEl);
+      const selectCategoria = document.getElementById("producto-categoria");
+      A.CATEGORIAS.forEach(function (c) {
+        const opt = document.createElement("option");
+        opt.value = c; opt.textContent = c;
+        selectCategoria.appendChild(opt);
+      });
+
+      
+
+      document.getElementById("btn-nuevo-producto").addEventListener("click", function () {
+        abrirModalProducto(null);
+      });
+
+      document.getElementById("form-producto").addEventListener("submit", function (e) {
+        e.preventDefault();
+        const id = document.getElementById("producto-id").value;
+        const stock = Math.max(0, parseInt(document.getElementById("producto-stock").value, 10) || 0);
+
+        const datos = {
+          nombre: document.getElementById("producto-nombre").value.trim(),
+          sku: document.getElementById("producto-sku").value.trim(),
+          categoria: document.getElementById("producto-categoria").value,
+          precio: Math.max(0, parseInt(document.getElementById("producto-precio").value, 10) || 0),
+          stock: stock,
+          activo: stock > 0,
+          imagen: document.getElementById("producto-imagen").value.trim() || "img/imagendestaca.jpg"
+        };
+
+        if (id) {
+          const prod = productos.find(function (p) { return p.id === id; });
+          Object.assign(prod, datos);
+        } else {
+          datos.id = A.idUnico("p");
+          productos.push(datos);
+        }
+
+        A.guardarProductos(productos);
+        modalProducto.hide();
+        renderInventario();
+        renderDashboard();
+      });
+
+      /* ---- Carga masiva CSV (HU-68) ---- */
+
+      document.getElementById("input-csv").addEventListener("change", function (e) {
+        const archivo = e.target.files[0];
+        if (!archivo) return;
+
+        const lector = new FileReader();
+        lector.onload = function (ev) {
+          const lineas = ev.target.result.split(/\r?\n/).filter(function (l) { return l.trim(); });
+          if (lineas.length < 2) { alert("El archivo CSV no tiene datos."); return; }
+
+          let agregados = 0, actualizados = 0;
+
+          for (let i = 1; i < lineas.length; i++) {
+            const cols = lineas[i].split(",").map(function (c) { return c.trim(); });
+            const [sku, nombre, categoria, precio, stock] = cols;
+            if (!sku || !nombre) continue;
+
+            const stockNum = Math.max(0, parseInt(stock, 10) || 0);
+            const existente = productos.find(function (p) { return p.sku === sku; });
+
+            if (existente) {
+              existente.nombre = nombre;
+              existente.categoria = categoria || existente.categoria;
+              existente.precio = parseInt(precio, 10) || existente.precio;
+              existente.stock = stockNum;
+              existente.activo = stockNum > 0;
+              actualizados++;
+            } else {
+              productos.push({
+                id: A.idUnico("p"),
+                sku: sku,
+                nombre: nombre,
+                categoria: categoria || A.CATEGORIAS[0],
+                precio: parseInt(precio, 10) || 0,
+                stock: stockNum,
+                activo: stockNum > 0,
+                imagen: "img/imagendestaca.jpg"
+              });
+              agregados++;
+            }
+          }
+
+          A.guardarProductos(productos);
+          renderInventario();
+          renderDashboard();
+          alert("Carga completada: " + agregados + " producto(s) nuevo(s), " + actualizados + " actualizado(s).");
+          e.target.value = "";
+        };
+        lector.readAsText(archivo);
+      });
+
+      /* ================= PEDIDOS ================= */
+
+      const selectFiltroEstado = document.getElementById("filtro-estado");
+      A.ESTADOS_PEDIDO.forEach(function (estado) {
+        const opt = document.createElement("option");
+        opt.value = estado; opt.textContent = estado;
+        selectFiltroEstado.appendChild(opt);
+      });
+
+      function renderPedidos() {
+        const estado = selectFiltroEstado.value;
+        const desde = document.getElementById("filtro-desde").value;
+        const hasta = document.getElementById("filtro-hasta").value;
+
+        const filtrados = pedidos.filter(function (p) {
+          if (estado && p.estado !== estado) return false;
+          if (desde && p.fecha < desde) return false;
+          if (hasta && p.fecha > hasta) return false;
+          return true;
+        }).sort(function (a, b) { return b.fecha.localeCompare(a.fecha); });
+
+        const tbody = document.getElementById("tabla-pedidos");
+        tbody.innerHTML = "";
+
+        filtrados.forEach(function (p) {
+          const tr = document.createElement("tr");
+          const opciones = A.ESTADOS_PEDIDO.map(function (e) {
+            return '<option value="' + e + '"' + (e === p.estado ? " selected" : "") + ">" + e + "</option>";
+          }).join("");
+
+          tr.innerHTML =
+            "<td>" + p.id + "</td>" +
+            "<td>" + p.cliente + "</td>" +
+            "<td>" + A.formatoFecha(p.fecha) + "</td>" +
+            "<td>" + p.entrega + "</td>" +
+            "<td>" + A.formatoPrecio(p.total) + "</td>" +
+            "<td><span class=\"badge-estado " + slugEstado(p.estado) + "\">" + p.estado + "</span></td>" +
+            "<td class=\"acciones-cell\">" +
+              '<select class="select-estado" data-id="' + p.id + '">' + opciones + "</select>" +
+              '<button type="button" class="btn btn-secondary btn-sm btn-ver-pedido" data-id="' + p.id + '">Ver</button>' +
+            "</td>";
+          tbody.appendChild(tr);
+        });
+
+        document.getElementById("msg-sin-pedidos").style.display = filtrados.length ? "none" : "";
+      }
+
+      [selectFiltroEstado, document.getElementById("filtro-desde"), document.getElementById("filtro-hasta")]
+        .forEach(function (el) { el.addEventListener("change", renderPedidos); });
+
+      document.getElementById("btn-limpiar-filtros").addEventListener("click", function () {
+        selectFiltroEstado.value = "";
+        document.getElementById("filtro-desde").value = "";
+        document.getElementById("filtro-hasta").value = "";
+        renderPedidos();
+      });
+
+      const modalPedidoEl = document.getElementById("modal-pedido");
+      const modalPedido = new bootstrap.Modal(modalPedidoEl);
+
+      document.getElementById("tabla-pedidos").addEventListener("change", function (e) {
+        if (!e.target.classList.contains("select-estado")) return;
+        const id = e.target.dataset.id;
+        const pedido = pedidos.find(function (p) { return p.id === id; });
+        pedido.estado = e.target.value;
+        A.guardarPedidos(pedidos);
+        renderPedidos();
+        renderDashboard();
+      });
+
+      document.getElementById("tabla-pedidos").addEventListener("click", function (e) {
+        if (!e.target.classList.contains("btn-ver-pedido")) return;
+        const id = e.target.dataset.id;
+        const pedido = pedidos.find(function (p) { return p.id === id; });
+
+        document.getElementById("detalle-pedido-id").textContent = pedido.id;
+        document.getElementById("detalle-cliente").textContent = pedido.cliente;
+        document.getElementById("detalle-fecha").textContent = A.formatoFecha(pedido.fecha);
+        document.getElementById("detalle-entrega").textContent = pedido.entrega;
+        document.getElementById("detalle-total").textContent = A.formatoPrecio(pedido.total);
+
+        const tbody = document.getElementById("detalle-items");
+        tbody.innerHTML = "";
+        pedido.items.forEach(function (it) {
+          const tr = document.createElement("tr");
+          tr.innerHTML =
+            "<td>" + it.nombre + "</td>" +
+            "<td>" + it.cantidad + "</td>" +
+            "<td>" + A.formatoPrecio(it.precio) + "</td>" +
+            "<td>" + A.formatoPrecio(it.precio * it.cantidad) + "</td>";
+          tbody.appendChild(tr);
+        });
+
+        modalPedido.show();
+      });
+
+      /* ---------- Primer render ---------- */
+      renderDashboard();
+      renderInventario();
+      renderPedidos();
+    })();
+  </script>
+</body>
+</html>
