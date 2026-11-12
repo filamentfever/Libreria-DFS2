@@ -1,0 +1,424 @@
+/* =========================================================
+   Ajustes propios del frontend React
+   Se cargan después de Bootstrap y de libreria.css para
+   completar los componentes interactivos que no existían
+   en la tienda HTML original.
+   ========================================================= */
+
+/* ---------- Migas de pan / avisos ---------- */
+
+.migas {
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+.migas a {
+  color: var(--pine-dark);
+  text-decoration: none;
+}
+
+.migas a:hover {
+  text-decoration: underline;
+}
+
+.alerta {
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
+  margin: 0 0 1rem;
+  font-size: 0.95rem;
+}
+
+.alerta-ok {
+  background: var(--color-accent-light);
+  color: var(--pine-dark);
+  border: 1px solid #bcdccd;
+}
+
+.alerta-error {
+  background: #fbe6e5;
+  color: var(--coral-dark);
+  border: 1px solid #f3c2be;
+}
+
+.cargando {
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+.resultado-conteo {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+/* ---------- Filtros del catálogo y del panel ---------- */
+
+.filters > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.filters input,
+.filters select {
+  padding: 0.5rem 0.65rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--white);
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+
+.filtro-acciones {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-end;
+}
+
+/* Los filtros apilan etiqueta + control; los botones deben quedar en fila. */
+.filters > .filtro-acciones {
+  flex-direction: row;
+}
+
+/* ---------- Tarjetas de producto ---------- */
+
+.acciones-producto {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0 0.9rem 0.9rem;
+}
+
+.acciones-producto .btn {
+  padding: 0.55rem 1rem;
+  font-size: 0.95rem;
+}
+
+.btn-favorito {
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 0.45rem 0.8rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--pine-dark);
+  cursor: pointer;
+}
+
+.btn-favorito:hover {
+  background: var(--color-surface);
+}
+
+.btn-favorito.activo {
+  background: #fbe6e5;
+  border-color: var(--coral);
+  color: var(--coral-dark);
+}
+
+.mini-aviso {
+  margin: 0.25rem 0 0;
+  font-size: 0.82rem;
+}
+
+.mini-aviso.ok {
+  color: var(--pine-dark);
+}
+
+.mini-aviso.error {
+  color: var(--coral-dark);
+}
+
+.lista-categorias {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+/* ---------- Paginación ---------- */
+
+.paginacion {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 2rem;
+  justify-content: center;
+}
+
+.paginacion [aria-current="page"] {
+  background: var(--pine-dark);
+  border-color: var(--pine-dark);
+  color: var(--white);
+}
+
+/* ---------- Carrito ---------- */
+
+.carrito-vacio {
+  text-align: center;
+  padding: 3rem 0;
+}
+
+.carrito-vacio p {
+  font-size: 1.1rem;
+  color: var(--color-text-muted);
+  margin-bottom: 1.5rem;
+}
+
+.item-carrito {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.item-carrito img {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  border: 1px solid var(--color-border);
+}
+
+.item-carrito-placeholder {
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  font-size: 1.4rem;
+}
+
+.item-nombre {
+  display: block;
+  font-weight: 600;
+}
+
+.item-precio {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.control-cantidad {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.control-cantidad span {
+  min-width: 1.5rem;
+  text-align: center;
+  font-weight: 600;
+}
+
+.item-subtotal {
+  display: block;
+  margin-top: 0.35rem;
+  font-weight: 600;
+}
+
+.btn-quitar {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--coral-dark);
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.carrito-resumen-wrap {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+}
+
+.carrito-resumen {
+  min-width: 280px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  background: var(--color-surface);
+}
+
+.checkout-total-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.checkout-total-row.total {
+  font-size: 1.25rem;
+  font-weight: 700;
+  border-top: 1px solid var(--color-border);
+  padding-top: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.checkout-total-row.total span:last-child {
+  color: var(--coral-dark);
+}
+
+.checkout-total-row.descuento {
+  color: var(--pine-dark);
+}
+
+.carrito-acciones {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 1.25rem;
+}
+
+/* ---------- Checkout ---------- */
+
+.checkout-resumen {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  background: var(--color-surface);
+  margin-bottom: 1.25rem;
+}
+
+.input-con-boton {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.input-con-boton input {
+  flex: 1;
+  padding: 0.5rem 0.65rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-family: inherit;
+}
+
+.datos-transferencia {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  background: var(--color-surface);
+  margin-bottom: 1rem;
+}
+
+.datos-transferencia h6 {
+  margin: 0 0 0.5rem;
+  font-weight: 700;
+}
+
+.datos-transferencia p {
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+}
+
+/* ---------- Modales propios (sin JS de Bootstrap) ---------- */
+
+.modal-backdrop-custom {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1050;
+}
+
+.modal.fade.show.d-block {
+  z-index: 1055;
+  overflow-y: auto;
+}
+
+/* ---------- Detalle de pedido ---------- */
+
+.detalle-pedido {
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+}
+
+.detalle-pedido p {
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+}
+
+.detalle-total {
+  text-align: right;
+  margin-top: 0.75rem;
+}
+
+/* ---------- Perfil ---------- */
+
+.link-button {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--pine-dark);
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.label-check {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+}
+
+.label-check input {
+  width: auto;
+}
+
+/* ---------- Detalle de producto ---------- */
+
+.product-info ul {
+  padding-left: 1.1rem;
+}
+
+.product-info li {
+  margin-bottom: 0.35rem;
+}
+
+/* ---------- Ajustes de navegación sobre Bootstrap ---------- */
+
+.navbar .nav-link {
+  color: var(--color-text);
+}
+
+/* Tailwind define `.collapse` como visibility:collapse; Bootstrap usa la misma
+   clase para el menú responsive, así que restauramos la visibilidad. */
+.navbar .navbar-collapse {
+  visibility: visible;
+}
+
+.navbar .nav-link:hover,
+.navbar .nav-link.active {
+  color: var(--pine-dark);
+}
+
+.navbar-toggler:focus {
+  box-shadow: none;
+}
+
+.form-select-sm {
+  width: auto;
+  padding: 0.35rem 0.5rem;
+  font-size: 0.85rem;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 720px) {
+  .carrito-resumen-wrap {
+    justify-content: stretch;
+  }
+
+  .carrito-resumen {
+    width: 100%;
+  }
+
+  .filtro-acciones {
+    width: 100%;
+  }
+}
