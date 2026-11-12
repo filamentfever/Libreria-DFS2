@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>4.0.5</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>com.libreriajuanin</groupId>
+    <artifactId>libreria-microservicios</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+    <name>libreria-microservicios</name>
+    <description>Microservicios de Librería Juanin (Spring Boot, arquitectura Controller-Service-Repository)</description>
+
+    <modules>
+        <!-- Infraestructura -->
+        <module>codigoms_eureka</module>
+        <module>codigoms_config_server</module>
+        <module>codigoms_gateway</module>
+        <!-- Negocio -->
+        <module>codigoms_usuarios</module>
+        <module>codigoms_catalogo</module>
+        <module>codigoms_carrito</module>
+        <module>codigoms_pagos</module>
+        <module>codigoms_pedidos</module>
+        <module>codigoms_envios</module>
+        <module>codigoms_resenas</module>
+        <module>codigoms_notificaciones</module>
+        <module>codigoms_admin</module>
+    </modules>
+
+    <properties>
+        <java.version>21</java.version>
+        <!-- Spring Boot 4.0.x se combina con la serie Spring Cloud 2025.1.x (2025.0.x es para Boot 3.5) -->
+        <spring-cloud.version>2025.1.2</spring-cloud.version>
+        <jacoco.version>0.8.13</jacoco.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <!-- Reporte de cobertura: target/site/jacoco/index.html (como pide la guía de pruebas) -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

@@ -1,0 +1,75 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: codigoms-gateway
+  cloud:
+    gateway:
+      server:
+        webflux:
+          # Spring Cloud Gateway 5.x (Spring Boot 4): el prefijo es spring.cloud.gateway.server.webflux
+          # (el antiguo spring.cloud.gateway.routes ya no se usa).
+          default-filters:
+            # El Gateway pone los encabezados CORS; se quitan los duplicados que agreguen los microservicios.
+            - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST
+          globalcors:
+            add-to-simple-url-handler-mapping: true
+            cors-configurations:
+              '[/**]':
+                allowedOrigins:
+                  - "http://localhost:5173"
+                  - "http://localhost:3000"
+                allowedMethods:
+                  - GET
+                  - POST
+                  - PUT
+                  - PATCH
+                  - DELETE
+                  - OPTIONS
+                allowedHeaders: "*"
+                maxAge: 3600
+          routes:
+            - id: usuarios
+              uri: lb://CODIGOMS-USUARIOS
+              predicates:
+                - Path=/api/usuarios/**
+            - id: catalogo
+              uri: lb://CODIGOMS-CATALOGO
+              predicates:
+                - Path=/api/productos/**
+            - id: carrito
+              uri: lb://CODIGOMS-CARRITO
+              predicates:
+                - Path=/api/carritos/**
+            - id: pagos
+              uri: lb://CODIGOMS-PAGOS
+              predicates:
+                - Path=/api/pagos/**
+            - id: pedidos
+              uri: lb://CODIGOMS-PEDIDOS
+              predicates:
+                - Path=/api/pedidos/**
+            - id: envios
+              uri: lb://CODIGOMS-ENVIOS
+              predicates:
+                - Path=/api/envios/**,/api/retiros/**
+            - id: resenas
+              uri: lb://CODIGOMS-RESENAS
+              predicates:
+                - Path=/api/resenas/**
+            - id: notificaciones
+              uri: lb://CODIGOMS-NOTIFICACIONES
+              predicates:
+                - Path=/api/notificaciones/**
+            - id: admin
+              uri: lb://CODIGOMS-ADMIN
+              predicates:
+                - Path=/api/admin/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
