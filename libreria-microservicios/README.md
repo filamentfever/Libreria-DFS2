@@ -3,7 +3,6 @@
 Backend de la tienda: **3 servicios de infraestructura + 9 microservicios de negocio**, con **Spring Boot 4.0.5 · Java 21 · Spring Cloud (OpenFeign, Eureka, Gateway, Config)**,
 arquitectura **CSR (Controller → Service → Repository)** y pruebas unitarias con **JUnit 5 + Mockito + AssertJ** (guía de pruebas *codigoms_carrito*).
 
-> Spring Boot es Java (no JavaScript). El front React (JavaScript) llama al **API Gateway** (`http://localhost:8080`).
 
 ## Mapa de servicios
 
@@ -92,28 +91,3 @@ Las pruebas unitarias usan Mockito: **no necesitan MySQL ni Eureka** (se pueden 
 
 Cómo se aplicó la guía del PDF: [`docs/GUIA_DE_PRUEBAS.md`](docs/GUIA_DE_PRUEBAS.md). Eureka, Config Server y Gateway no llevan pruebas (no tienen lógica propia).
 
-## Decisiones y cosas que debes saber
-
-1. **Nombres con guion en Eureka.** Los módulos se llaman `codigoms_xxx` (carpeta), pero `spring.application.name` es `codigoms-xxx`. Con guion bajo,
-   Java no reconoce el host de `lb://CODIGOMS_XXX` y el balanceo falla; por eso las rutas usan `lb://CODIGOMS-USUARIOS`, etc. (Se renombraron los 5 módulos que ya existían.)
-2. **Gateway 5.x (Spring Boot 4).** La configuración vive bajo `spring.cloud.gateway.server.webflux.*` (no `spring.cloud.gateway.routes`) y el starter es
-   `spring-cloud-starter-gateway-server-webflux`. Las rutas están en `codigoms_gateway/src/main/resources/application.yml`.
-3. **CORS.** El Gateway permite `http://localhost:5173` y `http://localhost:3000` con GET, POST, PUT, **PATCH**, DELETE y OPTIONS. Se agregó PATCH porque varios endpoints lo usan
-   (estado de pedidos y envíos, stock, cantidad del carrito). El filtro `DedupeResponseHeader` evita encabezados CORS repetidos si el microservicio también los envía.
-4. **Config Server.** Sirve `src/main/resources/config-repo/` (perfil `native`). Los microservicios todavía **no** lo consumen: para usarlo, agrega la dependencia
-   `spring-cloud-starter-config` y en su `application.properties` la línea `spring.config.import=optional:configserver:http://localhost:8888`.
-5. **Feign entre servicios** sigue usando las URLs fijas de `clients.*.url` (funcionan con o sin Eureka). Para balancear por nombre habría que quitar `url` del `@FeignClient`
-   y agregar `spring-cloud-starter-loadbalancer`.
-6. **Cambios en módulos existentes:** cliente Eureka + nombre con guion en los 5 `pom.xml`/`application.properties`, y un endpoint nuevo `GET /api/usuarios/total` (lo usa `codigoms_admin`).
-7. **Correos.** `codigoms_notificaciones` funciona en modo `simulado` (solo deja registro). Para enviar de verdad: `app.correo.modo=smtp` + `spring.mail.*` (ejemplo comentado en su `application.properties`).
-8. **Envíos duplicados.** `codigoms_pedidos` conserva su propia tarifa de despacho; `codigoms_envios` expone la misma cotización para el front. A futuro, pedidos puede consultarla por Feign.
-
-## Verificación hecha y límites
-
-No hay Maven ni red en el entorno donde se generó, así que **`mvn test` no se ha ejecutado**. Sí se comprobó que: (a) los 12 módulos compilan (código y pruebas) contra versiones simuladas de las librerías,
-(b) la lógica real de los servicios pasa 81 comprobaciones con repositorios y clientes simulados, (c) los 13 `pom.xml` y el `application.yml` son válidos.
-Los tests con Mockito y el arranque con Eureka/Gateway se validan por primera vez en tu máquina.
-
-## Pendiente
-
-Autenticación JWT, pagos y correos reales, conexión del front React a las APIs (reemplazar `localStorage` por `fetch` al Gateway), reseñas y notificaciones disparadas automáticamente desde pedidos/usuarios.
